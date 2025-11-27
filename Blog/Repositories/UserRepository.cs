@@ -45,5 +45,29 @@ namespace Blog.API.Repositories
             var sql = "DELETE FROM [User] WHERE Id = @UserID";
             await _connection.ExecuteAsync(sql, new {UserID = id});
         }
+
+        public async Task<List<User>> GetAllUserRoles()
+        {
+            var sql =
+                @"SELECT *
+                FROM [User] u
+                JOIN UserRole ur
+                ON u.id = ur.UserId
+                JOIN [Role] r
+                ON r.Id = ur.RoleId";
+
+            IEnumerable<User> userRoles = new List<User>();
+
+            await _connection.QueryAsync<User, Role, User>(
+                sql,
+                (user, role) =>
+                {
+                    user.Roles.Add(role);
+                    return user;
+                },
+                splitOn: "Id"
+            );
+            return userRoles.ToList();
+        }
     }
 }

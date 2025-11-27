@@ -10,6 +10,8 @@ namespace Blog.API.Models
 
         public string Slug { get; private set; }
 
+        public List<User> Users { get; private set; }
+
 
         [JsonConstructor]
         public Role(string name, string slug)
