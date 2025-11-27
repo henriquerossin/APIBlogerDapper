@@ -15,6 +15,11 @@ namespace Blog.API.Services
             _userRepository = userRepository;
         }
 
+        public async Task<List<UserResponseDTO>> GetAllUserRoles()
+        {
+            return await _userRepository.GetAllUserRoles();
+        }
+
         public async Task<List<UserResponseDTO>> GetAllUsersAsync()
         {
             return await _userRepository.GetAllUsersAsync();

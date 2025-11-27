@@ -56,7 +56,7 @@ namespace Blog.API.Repositories
                 JOIN [Role] r
                 ON r.Id = ur.RoleId";
 
-            IEnumerable<User> userRoles = new List<User>();
+            IEnumerable<User> userRoles = [];
 
             await _connection.QueryAsync<User, Role, User>(
                 sql,
