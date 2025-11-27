@@ -40,13 +40,13 @@ namespace Blog.API.Controllers
             return Created(); 
         }
 
-        [HttpGet("GetByID")]
+        [HttpGet("GetByID/{id}")]
         public async Task<ActionResult<RoleResponseDTO>> GetRolesByIDAsync(int id)
         {
             return Ok(await _roleService.GetRoleByIDAsync(id));
         }
 
-        [HttpPut("UpdateByID")]
+        [HttpPut("UpdateByID/{id}")]
         public async Task<ActionResult> UpdateRoleByID(RoleRequestDTO role, int id)
         {
             var roleFound = await _roleService.GetRoleByIDAsync(id);
@@ -60,7 +60,7 @@ namespace Blog.API.Controllers
             return Ok();
         }
 
-        [HttpDelete("DeleteByID")]
+        [HttpDelete("DeleteByID/{id}")]
         public async Task<ActionResult> DeleteRoleByIDAsync(int id)
         {
             var roleFound = await _roleService.GetRoleByIDAsync(id);
