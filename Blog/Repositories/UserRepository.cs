@@ -46,7 +46,7 @@ namespace Blog.API.Repositories
             await _connection.ExecuteAsync(sql, new { UserID = id });
         }
 
-        public async Task<List<UserResponseDTO>> GetAllUserRoles()
+        public async Task<List<UserResponseDTO>> GetAllUserRolesAsync()
         {
             var usersDict = new Dictionary<int, UserResponseDTO>();
 
@@ -84,7 +84,7 @@ namespace Blog.API.Repositories
             return usersDict.Values.ToList();
         }
 
-        public async Task<List<UserResponseDTO>> GetUserRoleById()
+        public async Task<UserResponseDTO> GetUserRoleByIdAsync(int id)
         {
             var usersDict = new Dictionary<int, UserResponseDTO>();
 
@@ -95,7 +95,7 @@ namespace Blog.API.Repositories
                 ON u.id = ur.UserId
                 JOIN [Role] r
                 ON r.Id = ur.RoleId
-                WHERE u.Id = @Id";
+                WHERE u.Id = @id";
 
             await _connection.QueryAsync<User, Role, User>(
                 sql,
@@ -115,12 +115,15 @@ namespace Blog.API.Repositories
                             Roles = new List<string>()
                         };
                     }
+
                     usersDict[user.Id].Roles.Add(role.Name);
                     return user;
                 },
-                splitOn: "Name"
+                splitOn: "Name",
+                param: new { id }
             );
-            return usersDict.Values.ToList();
+
+            return usersDict.Values.FirstOrDefault();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Blog.API.Services
 
         public async Task<List<UserResponseDTO>> GetAllUserRoles()
         {
-            return await _userRepository.GetAllUserRoles();
+            return await _userRepository.GetAllUserRolesAsync();
         }
 
         public async Task<List<UserResponseDTO>> GetAllUsersAsync()
@@ -50,7 +50,12 @@ namespace Blog.API.Services
 
         public async Task<List<UserResponseDTO>> GetAllUserRolesAsync()
         {
-            return await _userRepository.GetAllUserRoles();
+            return await _userRepository.GetAllUserRolesAsync();
+        }
+
+        public async Task<UserResponseDTO> GetUserRoleByIdAsync(int id)
+        {
+            return await _userRepository.GetUserRoleByIdAsync(id);
         }
     }
 }

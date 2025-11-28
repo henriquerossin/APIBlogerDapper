@@ -15,6 +15,8 @@ namespace Blog.API.Repositories.Interfaces
 
         Task DeleteUserByIDAsync(int id);
 
-        Task<List<UserResponseDTO>> GetAllUserRoles();
+        Task<List<UserResponseDTO>> GetAllUserRolesAsync();
+
+        Task<UserResponseDTO> GetUserRoleByIdAsync(int id);
     }
 }

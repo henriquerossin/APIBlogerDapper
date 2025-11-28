@@ -1,5 +1,6 @@
 ﻿using Blog.API.Models;
 using Blog.API.Models.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.API.Services.Interfaces
 {
@@ -16,5 +17,7 @@ namespace Blog.API.Services.Interfaces
         Task DeleteUserByIDAsync(int id);
 
         Task<List<UserResponseDTO>> GetAllUserRolesAsync();
+
+        Task<UserResponseDTO> GetUserRoleByIdAsync(int id);
     }
 }

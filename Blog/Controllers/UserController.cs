@@ -49,7 +49,7 @@ namespace Blog.API.Controllers
         {
             var userFound = await _userService.GetUserByIDAsync(id);
 
-            if(userFound is null)
+            if (userFound is null)
             {
                 return NotFound();
             }
@@ -73,7 +73,13 @@ namespace Blog.API.Controllers
         [HttpGet("GetAllUserRoles")]
         public async Task<ActionResult<UserResponseDTO>> GetAllUserRolesAsync()
         {
-            return Ok(await _userService.GetAllUserRolesAsync()); 
+            return Ok(await _userService.GetAllUserRolesAsync());
+        }
+
+        [HttpGet("GetUserRoleById/{id}")]
+        public async Task<ActionResult<UserResponseDTO>> GetUserRoleByIdAsync(int id)
+        {
+            return Ok(await _userService.GetUserRoleByIdAsync(id));
         }
     }
 }
