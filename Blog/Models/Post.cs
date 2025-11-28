@@ -9,13 +9,13 @@
         public string Sumary { get; private set; }
         public string Body { get; private set; }
         public string Slug { get; private set; }
-        public DateOnly CreateDate { get; private set; }
-        public DateOnly LastUpdateDate { get; private set;}
+        public DateTime CreateDate { get; private set; }
+        public DateTime LastUpdateDate { get; private set;}
         public List<Tag> Tags { get; private set; }
 
         public Post() { }
 
-        public Post(int id, int categoryId, int authorId, string title, string sumary, string body, string slug, DateOnly createDate, DateOnly lastUpdateDate, List<Tag> tags)
+        public Post(int id, int categoryId, int authorId, string title, string sumary, string body, string slug, DateTime createDate, DateTime lastUpdateDate, List<Tag> tags)
         {
             Id = id;
             CategoryId = categoryId;
@@ -38,9 +38,8 @@
             Body = body;
             Slug = slug;
 
-            CreateDate = DateOnly.FromDateTime(DateTime.Now);
-            LastUpdateDate = DateOnly.FromDateTime(DateTime.Now);
+            CreateDate = DateTime.Now;
+            LastUpdateDate = DateTime.Now;
         }
-
     }
 }

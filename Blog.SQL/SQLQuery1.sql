@@ -28,6 +28,7 @@ select * from Category;
 select * from [User];
 select * from UserRole;
 select * from [Role];
+select * from Post
 
 insert into Tag (Name, Slug) 
 VALUES 

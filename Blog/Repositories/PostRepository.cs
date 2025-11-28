@@ -1,12 +1,12 @@
 ﻿using Blog.API.Data;
 using Blog.API.Models;
+using Blog.API.Repositories.Interfaces;
 using Dapper;
 using Microsoft.Data.SqlClient;
-using System.Data.Common;
 
 namespace Blog.API.Repositories
 {
-    public class PostRepository
+    public class PostRepository : IPostRepository
     {
         private readonly SqlConnection _connection;
 
@@ -18,9 +18,9 @@ namespace Blog.API.Repositories
         public async Task CreatePostAsync(Post post, List<string> tags)
         {
             var sql =
-                @"INSERT INTO Post (CategoryId, AuthorId, Title, Sumary, Body, Slug, CreateDate, LastUpdateDate)
-                OUTPUT INSERTED.Id
-                VALUES (@CategoryId, @AuthorId, @Title, @Sumary, @Body, @Slug, @CreateDate, @LastUpdateDate);";
+                @"INSERT INTO Post (CategoryId, AuthorId, Title, Summary, Body, Slug, CreateDate, LastUpdateDate)
+                  OUTPUT INSERTED.Id
+                  VALUES (@CategoryId, @AuthorId, @Title, @Sumary, @Body, @Slug, @CreateDate, @LastUpdateDate);";
 
             var postId = await _connection.ExecuteScalarAsync<int>(sql, new
             {
@@ -51,8 +51,8 @@ namespace Blog.API.Repositories
 
                     tagId = await _connection.ExecuteScalarAsync<int>(
                         @"INSERT INTO Tag (Name, Slug)
-                  OUTPUT INSERTED.Id
-                  VALUES (@Name, @Slug)",
+                          OUTPUT INSERTED.Id
+                          VALUES (@Name, @Slug)",
                         new { Name = tagName, Slug = slug }
                     );
                 }
@@ -63,6 +63,5 @@ namespace Blog.API.Repositories
                 );
             }
         }
-
     }
 }
