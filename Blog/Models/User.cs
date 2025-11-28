@@ -20,7 +20,9 @@ namespace Blog.API.Models
 
         public List<Role> Roles { get; private set; }
 
-        [JsonConstructor]
+        public User() { }
+
+        //[JsonConstructor]
         public User(string name, string email, string passwordHash, string bio, string image, string slug)
         {
             Name = name;

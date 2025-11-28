@@ -69,5 +69,11 @@ namespace Blog.API.Controllers
             await _userService.DeleteUserByIDAsync(id);
             return Ok();
         }
+
+        [HttpGet("GetAllUserRoles")]
+        public async Task<ActionResult<UserResponseDTO>> GetAllUserRolesAsync()
+        {
+            return Ok(await _userService.GetAllUserRolesAsync()); 
+        }
     }
 }

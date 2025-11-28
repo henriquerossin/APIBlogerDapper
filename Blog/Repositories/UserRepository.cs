@@ -43,31 +43,84 @@ namespace Blog.API.Repositories
         public async Task DeleteUserByIDAsync(int id)
         {
             var sql = "DELETE FROM [User] WHERE Id = @UserID";
-            await _connection.ExecuteAsync(sql, new {UserID = id});
+            await _connection.ExecuteAsync(sql, new { UserID = id });
         }
 
-        public async Task<List<User>> GetAllUserRoles()
+        public async Task<List<UserResponseDTO>> GetAllUserRoles()
         {
+            var usersDict = new Dictionary<int, UserResponseDTO>();
+
             var sql =
-                @"SELECT *
+                @"SELECT u.Id, u.Name, u.Email, u.PasswordHash, u.Bio, u.Image, u.Slug, r.Name, r.Slug
                 FROM [User] u
                 JOIN UserRole ur
                 ON u.id = ur.UserId
                 JOIN [Role] r
                 ON r.Id = ur.RoleId";
 
-            IEnumerable<User> userRoles = [];
+            await _connection.QueryAsync<User, Role, User>(
+                sql,
+                (user, role) =>
+                {
+                    if (!usersDict.ContainsKey(user.Id))
+                    {
+                        usersDict[user.Id] = new UserResponseDTO
+                        {
+                            Id = user.Id,
+                            Name = user.Name,
+                            Email = user.Email,
+                            PasswordHash = user.PasswordHash,
+                            Bio = user.Bio,
+                            Image = user.Image,
+                            Slug = user.Slug,
+                            Roles = new List<string>()
+                        };
+                    }
+                    usersDict[user.Id].Roles.Add(role.Name);
+                    return user;
+                },
+                splitOn: "Name"
+            );
+            return usersDict.Values.ToList();
+        }
+
+        public async Task<List<UserResponseDTO>> GetUserRoleById()
+        {
+            var usersDict = new Dictionary<int, UserResponseDTO>();
+
+            var sql =
+                @"SELECT u.Id, u.Name, u.Email, u.PasswordHash, u.Bio, u.Image, u.Slug, r.Name, r.Slug
+                FROM [User] u
+                JOIN UserRole ur
+                ON u.id = ur.UserId
+                JOIN [Role] r
+                ON r.Id = ur.RoleId
+                WHERE u.Id = @Id";
 
             await _connection.QueryAsync<User, Role, User>(
                 sql,
                 (user, role) =>
                 {
-                    user.Roles.Add(role);
+                    if (!usersDict.ContainsKey(user.Id))
+                    {
+                        usersDict[user.Id] = new UserResponseDTO
+                        {
+                            Id = user.Id,
+                            Name = user.Name,
+                            Email = user.Email,
+                            PasswordHash = user.PasswordHash,
+                            Bio = user.Bio,
+                            Image = user.Image,
+                            Slug = user.Slug,
+                            Roles = new List<string>()
+                        };
+                    }
+                    usersDict[user.Id].Roles.Add(role.Name);
                     return user;
                 },
-                splitOn: "Id"
+                splitOn: "Name"
             );
-            return userRoles.ToList();
+            return usersDict.Values.ToList();
         }
     }
 }

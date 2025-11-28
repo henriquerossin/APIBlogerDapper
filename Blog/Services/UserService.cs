@@ -47,5 +47,10 @@ namespace Blog.API.Services
         {
             await _userRepository.DeleteUserByIDAsync(id);
         }
+
+        public async Task<List<UserResponseDTO>> GetAllUserRolesAsync()
+        {
+            return await _userRepository.GetAllUserRoles();
+        }
     }
 }
