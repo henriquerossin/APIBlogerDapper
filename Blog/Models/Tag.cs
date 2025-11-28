@@ -10,7 +10,6 @@ namespace Blog.API.Models
 
         public string Slug { get; private set; }
 
-
         [JsonConstructor]
         public Tag(string name, string slug)
         {

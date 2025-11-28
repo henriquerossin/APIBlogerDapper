@@ -29,7 +29,6 @@ namespace Blog.API.Services
         {
             var newUser = new User(user.Name, user.Email, user.PasswordHash, user.Bio, user.Image, user.Name.ToLower().Replace(" ", "-"));
             await _userRepository.CreateUserAsync(newUser);
-
         }
 
         public async Task<UserResponseDTO> GetUserByIDAsync(int id)
